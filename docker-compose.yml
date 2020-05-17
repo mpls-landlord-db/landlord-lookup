@@ -1,8 +1,11 @@
+# Based on guide from https://dev.to/alex_barashkov/using-docker-for-nodejs-in-development-and-production-3cgp
+
 version: '3'
 services: 
   web:
     build: .
     volumes: 
       - .:/usr/src/app
+      - /usr/src/app/node_modules # this is necessary when using multistage builds
     ports: 
       - 3000:3000

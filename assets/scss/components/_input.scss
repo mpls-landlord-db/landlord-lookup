@@ -1,0 +1,15 @@
+.g-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 300px;
+
+  &__label {
+    margin-bottom: .25rem;
+  }
+
+  &__input {
+    font: inherit;
+    padding: .25rem;
+  }
+}

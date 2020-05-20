@@ -1,0 +1,17 @@
+.g-btn {
+  cursor: pointer;
+  font: inherit;
+  border: 1px solid #555;
+  border-radius: 4px;
+  outline: none;
+  padding: .5rem;
+  background-color: transparent;
+
+  &.block {
+    width: 100%;
+  }
+
+  &.text {
+    border-color: transparent;
+  }
+}

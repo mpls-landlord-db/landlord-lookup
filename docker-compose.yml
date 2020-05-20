@@ -9,3 +9,6 @@ services:
       - /usr/src/app/node_modules # this is necessary when using multistage builds
     ports: 
       - 3000:3000
+      - 5432:5432
+    env_file: 
+      - .env

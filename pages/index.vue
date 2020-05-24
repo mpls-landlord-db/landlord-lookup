@@ -3,8 +3,11 @@
     <h1>Hello</h1>
     <TheAddressSearchbar label="Search by address:" @submit="onSubmit" v-model="addrSearch" />
     <ul>
-      <li v-for="(x, i) in searchResults" :key="i">
-        <pre>{{x}}</pre>
+      <li v-for="(x, i) in searchResults" :key="i" class="card bg-light text-dark p-2 my-2">
+        <div class="card-header border-bottom-0 font-weight-bold px-2">
+          {{x.address}}
+        </div>
+        <PropertyInfoDisplay v-bind="x" />
       </li>
     </ul>
   </section>
@@ -13,10 +16,12 @@
 <script>
 import * as api from '@/services/api'
 
-import TheAddressSearchbar from '@/components/address-searchbar'
+import TheAddressSearchbar from '@/components/home-page/address-searchbar'
+import PropertyInfoDisplay from '@/components/home-page/property-info-display/property-info-display'
 export default {
   components: {
-    TheAddressSearchbar
+    TheAddressSearchbar,
+    PropertyInfoDisplay
   },
   data() {
     return {

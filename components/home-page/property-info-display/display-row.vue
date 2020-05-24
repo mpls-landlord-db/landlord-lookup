@@ -1,0 +1,18 @@
+<template functional>
+  <div class="row my-1">
+    <div class="col-6 font-weight-bold">{{props.label}}:</div>
+    <div class="col-6">{{props.value || 'N/A'}}</div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    label: String,
+    value: {
+      type: String,
+      default: 'N/A'
+    }
+  }
+}
+</script>

@@ -1,5 +1,5 @@
 <template>
-  <form class="address-searchbar" @submit.prevent="onSubmit" @keydown.down.prevent="shiftFocus('next')" @keydown.up.prevent="shiftFocus('prev')">
+  <form class="address-searchbar" @submit.prevent="$listeners.submit" @keydown.down.prevent="shiftFocus('next')" @keydown.up.prevent="shiftFocus('prev')">
     <div class="g-input" >
       <label for="asb-input" class="g-input__label">{{label}}</label>
       <input
@@ -12,11 +12,11 @@
         @input="fetchAddressMatches"
       >
     </div>
-    <template v-if="addresses.length">
-      <ul tabindex="-1" class="search-results" ref="results">
-        <template v-for="(x, i) in addresses">
-          <li :key="i" class="search-results__item">
-            <button class="g-btn text block focusable" style="text-align:left;" @click.self="selectAddress(x.address)">{{x.address}}</button>
+    <template v-if="addressMatches.length">
+      <ul class="address-matches" ref="results">
+        <template v-for="(x, i) in addressMatches">
+          <li :key="i" class="address-matches__item">
+            <button class="g-btn text block focusable" style="text-align:left;" @click="selectAddress(x.address)">{{x.address}}</button>
           </li>
         </template>
       </ul>
@@ -35,14 +35,11 @@ export default {
   },
   data() {
     return {
-      addresses: [],
+      addressMatches: [],
       errorMessage: ''
     }
   },
   methods: {
-    onSubmit() {
-      console.log('ON SUBMIT')
-    },
     fetchAddressMatches(e) {
       this.errorMessage = ''
       const search = e.target.value.trim()
@@ -50,10 +47,10 @@ export default {
       debouncer.debounce(400, async () => {
         try {
           if (search) {
-            const res = await api.fetchAddressList({ search })
-            this.addresses = res.data
+            const res = await api.fetchAddressList({ q: search })
+            this.addressMatches = res.data
           } else {
-            this.addresses = []
+            this.addressMatches = []
           }
         } catch (error) {
           this.errorMessage = error.message
@@ -63,7 +60,7 @@ export default {
     selectAddress(addr) {
       this.$emit('input', addr)
       this.$emit('searchWith', addr)
-      this.addresses = []
+      this.addressMatches = []
     },
     shiftFocus(direction) {
       const input = this.$refs.input
@@ -92,7 +89,7 @@ export default {
 .address-searchbar {
   width: 300px;
 }
-.search-results {
+.address-matches {
   width: 100%;
   margin-top: 2px;
   border: none;

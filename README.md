@@ -14,3 +14,5 @@ If you have Node.js installed on your machine:
 ### With Docker
 Alternatively, if you have docker installed on your machine
 - Run `docker-compose up`
+
+CAN I PUSH THIS TO MASTER?

@@ -1,8 +1,27 @@
 const e = require('express')
-const pool = require('../services/database')
+const {
+  findSoftMatchAddresses,
+  findRowByAddress,
+  findRowsByOwner,
+} = require('../sql/address')
 
-const ACTIVE_RENTAL_LICENSES = 'active_rental_licenses_mpls_2020_05_09'
 
+// Helpers
+const countVariants = rows => {
+  const variantKeys = ['owner_name', 'owner_address1', 'owner_email', 'owner_phone']
+  const accumulator = variantKeys.reduce((acc, key) => ({ ...acc, [key]: {} }), {})
+  const variants = rows.reduce((acc, row) => {
+    variantKeys.forEach(key => {
+      acc[key][row[key].toUpperCase()] = true
+    })
+    return acc
+  }, accumulator)
+  return variantKeys.reduce((acc, key) => ({ ...acc, [key]: Object.keys(variants[key]) }), {})
+}
+
+
+
+// Handlers
 
 /**
  * 
@@ -12,10 +31,7 @@ const ACTIVE_RENTAL_LICENSES = 'active_rental_licenses_mpls_2020_05_09'
 async function searchAddressList(req, res) {
   try {
     const { q = '', limit = 20 } = req.query
-    const sql = `SELECT address FROM ${ACTIVE_RENTAL_LICENSES}
-      WHERE address ILIKE $1
-      LIMIT $2;`
-    const { rows } = await pool.query(sql, [`%${q}%`, limit])
+    const { rows } = await findSoftMatchAddresses({ address: q, limit })
     return res.send(rows)
   } catch (error) {
     console.error('[* * * * error * * * *]', error)
@@ -31,19 +47,20 @@ async function searchAddressList(req, res) {
 async function getAddressInfo(req, res) {
   try {
     const { q = '' } = req.query
-    const sql = `SELECT * FROM ${ACTIVE_RENTAL_LICENSES} WHERE address = $1`
-    const result1 = await pool.query(sql, [q])
-    if (result1.rowCount > 0) {
-      const { owner_name, ownerName } = result1.rows[0]
-      console.log({ ownerName, owner_name })
-      const result2 = await pool.query(`SELECT * FROM ${ACTIVE_RENTAL_LICENSES} WHERE owner_name ILIKE $1;`, [owner_name])
-      return res.send(result2.rows)
+    const { rows: primary, rowCount } = await findRowByAddress({ address: q })
+    if (rowCount) {
+      const { rows: secondary } = await findRowsByOwner(primary[0])
+      return res.send({
+        primary,
+        secondary,
+        variants: countVariants([...primary, ...secondary])
+      })
     }
     res.status = 404
-    return res.send(`We couldn't find any results with the address: ${q}`)
+    res.send(`We couldn't find any results with the address: ${q}`)
   } catch (error) {
     console.error('[* * * * error * * * *]', error)
-    return res.sendStatus(500)
+    res.sendStatus(500)
   }
 }
 

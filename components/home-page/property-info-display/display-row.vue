@@ -1,5 +1,5 @@
 <template functional>
-  <div class="row my-1">
+  <div class="row py-1 mx-1">
     <div class="col-6 font-weight-bold">{{props.label}}:</div>
     <div class="col-6">{{props.value || 'N/A'}}</div>
   </div>

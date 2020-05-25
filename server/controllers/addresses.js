@@ -8,7 +8,15 @@ const {
 
 // Helpers
 const countVariants = rows => {
-  const variantKeys = ['owner_name', 'owner_address1', 'owner_email', 'owner_phone']
+  const variantKeys = [
+    'owner_name',
+    'owner_address1',
+    'owner_city',
+    'owner_state',
+    'owner_zip',
+    'owner_email',
+    'owner_phone',
+  ]
   const accumulator = variantKeys.reduce((acc, key) => ({ ...acc, [key]: {} }), {})
   const variants = rows.reduce((acc, row) => {
     variantKeys.forEach(key => {
@@ -51,7 +59,7 @@ async function getAddressInfo(req, res) {
     if (rowCount) {
       const { rows: secondary } = await findRowsByOwner(primary[0])
       return res.send({
-        primary,
+        primary: primary[0],
         secondary,
         variants: countVariants([...primary, ...secondary])
       })

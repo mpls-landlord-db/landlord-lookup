@@ -87,9 +87,13 @@ export default {
 
 <style lang="scss" scoped>
 .address-searchbar {
+  position: relative;
   width: 300px;
 }
 .address-matches {
+  position: absolute;
+  z-index: 1;
+  background-color: white;
   width: 100%;
   margin-top: 2px;
   border: none;
@@ -101,7 +105,7 @@ export default {
 
 }
 .focusable:focus {
-  background-color: #467c7e;
-  color: aliceblue;
+  background-color: #a2e0e2;
+
 }
 </style>

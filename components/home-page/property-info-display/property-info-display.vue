@@ -1,24 +1,15 @@
 <template>
-  <div class="property-info">
-    <section class="row mb-2">
-      <div class="col col-sm-6">
-        <section class="p-2 ">
-          <template v-for="(x, i) in dataGroup1">
-            <DisplayRow :key="i" v-bind="x" />
-          </template>
-        </section>
-      </div>
-    </section>
+  <div>
     <section class="row">
       <div class="col col-sm-6">
-        <section class="p-2">
+        <section class="p-2 property-info">
           <template v-for="(x, i) in dataGroup2">
             <DisplayRow :key="i" v-bind="x" />
           </template>
         </section>
       </div>
       <div class="col col-sm-6">
-        <section class="p-2">
+        <section class="p-2 property-info">
           <template v-for="(x, i) in dataGroup3">
             <DisplayRow :key="i" v-bind="x" />
           </template>
@@ -141,3 +132,11 @@ export default {
 }
 </script>
 
+<style scoped>
+.property-info .row:nth-of-type(odd) {
+  background: #add8e6a1;
+}
+.property-info .row:nth-of-type(even) {
+  /* background: #ddd; */
+}
+</style>

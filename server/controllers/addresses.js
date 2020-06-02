@@ -3,7 +3,7 @@ const {
   findSoftMatchAddresses,
   findRowByAddress,
   findRowsByOwner,
-} = require('../sql/address')
+} = require('../queries/addresses')
 
 
 // Helpers
@@ -20,7 +20,10 @@ const countVariants = rows => {
   const accumulator = variantKeys.reduce((acc, key) => ({ ...acc, [key]: {} }), {})
   const variants = rows.reduce((acc, row) => {
     variantKeys.forEach(key => {
-      acc[key][row[key].toUpperCase()] = true
+      const val = row[key].trim().toUpperCase()
+      if (val) {
+        acc[key][val] = true
+      } 
     })
     return acc
   }, accumulator)

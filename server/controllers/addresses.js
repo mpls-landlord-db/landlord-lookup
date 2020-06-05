@@ -3,29 +3,32 @@ const {
   findSoftMatchAddresses,
   findRowByAddress,
   findRowsByOwner,
-} = require('../sql/address')
+} = require('../queries/addresses')
 
 
 // Helpers
-const countVariants = rows => {
-  const variantKeys = [
-    'owner_name',
-    'owner_address1',
-    'owner_city',
-    'owner_state',
-    'owner_zip',
-    'owner_email',
-    'owner_phone',
-  ]
-  const accumulator = variantKeys.reduce((acc, key) => ({ ...acc, [key]: {} }), {})
-  const variants = rows.reduce((acc, row) => {
-    variantKeys.forEach(key => {
-      acc[key][row[key].toUpperCase()] = true
+
+function aggregate(result) {
+  const rv = { totalEntities: 0, entities: [], searchMatchGraph: {} }
+  const recorded = {}
+  result.forEach(result => {
+    rv.searchMatchGraph[result.searchKey] = {
+      rowIds: [],
+      rowCount: result.rowCount,
+      searchVal: result.searchVal
+    }
+    result.rows.forEach(row => {
+      rv.searchMatchGraph[result.searchKey].rowIds.push(row.id)
+      if (!recorded[row.id]) {
+        rv.entities.push(row)
+        recorded[row.id] = true
+      }
     })
-    return acc
-  }, accumulator)
-  return variantKeys.reduce((acc, key) => ({ ...acc, [key]: Object.keys(variants[key]) }), {})
+  })
+  rv.totalEntities = rv.entities.length
+  return rv
 }
+
 
 
 
@@ -55,23 +58,18 @@ async function searchAddressList(req, res) {
 async function getAddressInfo(req, res) {
   try {
     const { q = '' } = req.query
-    const { rows: primary, rowCount } = await findRowByAddress({ address: q })
-    if (rowCount) {
-      const { rows: secondary } = await findRowsByOwner(primary[0])
-      return res.send({
-        primary: primary[0],
-        secondary,
-        variants: countVariants([...primary, ...secondary])
-      })
+    const { rows: primary } = await findRowByAddress({ address: q })
+    if (primary.length) {
+      const result = await findRowsByOwner(primary[0])
+      return res.send(aggregate(result))
     }
     res.status = 404
-    res.send(`We couldn't find any results with the address: ${q}`)
+    return res.send(`We couldn't find any results with the address: ${q}`)
   } catch (error) {
     console.error('[* * * * error * * * *]', error)
-    res.sendStatus(500)
+    return res.sendStatus(500)
   }
 }
-
 
 
 

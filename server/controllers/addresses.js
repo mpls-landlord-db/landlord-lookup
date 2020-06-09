@@ -9,22 +9,23 @@ const {
 // Helpers
 
 function aggregate(result) {
-  const rv = { totalEntities: 0, entities: [], searchMatchGraph: {} }
-  const recorded = {}
+  const rv = { totalEntities: 0, entities: [] }
+  const entities = {}
   result.forEach(result => {
-    rv.searchMatchGraph[result.searchKey] = {
-      rowIds: [],
-      rowCount: result.rowCount,
-      searchVal: result.searchVal
-    }
     result.rows.forEach(row => {
-      rv.searchMatchGraph[result.searchKey].rowIds.push(row.id)
-      if (!recorded[row.id]) {
-        rv.entities.push(row)
-        recorded[row.id] = true
+      if (!entities[row.id]) {
+        entities[row.id] = {
+          data: row,
+          matchedBy: [result.searchKey]
+        }
+      } else {
+        entities[row.id].matchedBy.push(result.searchKey)
       }
     })
   })
+  rv.entities = Object.keys(entities)
+    .map(key => entities[key])
+    .sort((a, b) => b.matchedBy.length - a.matchedBy.length)
   rv.totalEntities = rv.entities.length
   return rv
 }

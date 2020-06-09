@@ -1,6 +1,6 @@
 const pool = require('../services/database')
 
-const ACTIVE_RENTAL_LICENSES = 'active_rental_licenses_mpls_2020_05_09'
+const ACTIVE_RENTAL_LICENSES = 'mpls_active_rental_licenses'
 
 
 // regex pattern creaters
@@ -52,7 +52,7 @@ const queries = {
       rowByColname('owner_address1', owner_address1),
       rowByColname('owner_email', owner_email),
       rowByColname('owner_name', owner_name),
-      rowByColname('owner_phone', reOwnerPhone(owner_phone), '~')
+      rowByColname('owner_phone', owner_phone),
     ])
   }
 }

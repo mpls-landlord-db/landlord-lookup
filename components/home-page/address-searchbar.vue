@@ -2,8 +2,8 @@
   <form
     class="address-searchbar"
     @submit.prevent="$listeners.submit"
-    @keydown.down.prevent="shiftFocus('next')"
-    @keydown.up.prevent="shiftFocus('prev')"
+    @keydown.down.prevent="incrementOptionIndex(1)"
+    @keydown.up.prevent="incrementOptionIndex(-1)"
   >
     <div class="d-flex align-items-end">
       <div class="flex-grow-1">
@@ -114,7 +114,7 @@ export default {
 }
 .address-matches {
   position: absolute;
-  z-index: 1;
+  z-index: 1000;
   background-color: white;
   width: 100%;
   margin-top: 2px;
@@ -124,10 +124,8 @@ export default {
   box-shadow: 1px 1px 4px #aaa;
   max-height: 300px;
   overflow: scroll;
-
 }
 .focusable:focus {
   background-color: #a2e0e2;
-
 }
 </style>

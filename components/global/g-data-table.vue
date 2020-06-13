@@ -1,10 +1,10 @@
 <template>
   <table class="table" :class="{ 'table-striped': striped }">
     <thead>
-      <tr>
+      <tr class="d-flex">
         <slot name="thead">
           <template v-for="(x, i) in columns">
-            <th :key="i" scope="col" class="text-left">
+            <th :key="i" scope="col" class="col text-left">
               {{x.text || x}}
             </th>
           </template>
@@ -13,7 +13,7 @@
     </thead>
     <tbody>
       <template v-for="(row, i) in rows">
-        <tr :key="i">
+        <tr :key="i" class="d-flex">
           <slot name="tbody-row" v-bind="row" />
         </tr>
       </template>

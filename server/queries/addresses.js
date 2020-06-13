@@ -3,12 +3,6 @@ const pool = require('../services/database')
 const ACTIVE_RENTAL_LICENSES = 'mpls_active_rental_licenses'
 
 
-// regex pattern creaters
-const reOwnerPhone = ownerPhone => {
-  const digits = ownerPhone.match(/\d/g).join('')
-  return `\\(?${digits.slice(0, 3)}\\)?(-|\\s)?${digits.slice(3, 6)}(-|\\s)${digits.slice(6)}`
-}
-
 // DYNAMIC QUERY TEMPLATES
 const templates = {
   rowsByColname: (colname, comparisonOperator = '=') => (

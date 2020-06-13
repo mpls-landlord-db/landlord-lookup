@@ -1,26 +1,40 @@
 <template>
-  <form class="address-searchbar" @submit.prevent="$listeners.submit" @keydown.down.prevent="shiftFocus('next')" @keydown.up.prevent="shiftFocus('prev')">
-    <div class="g-input" >
-      <label for="asb-input" class="g-input__label">{{label}}</label>
-      <input
-        ref="input"
-        type="text"
-        id="asb-input"
-        class="g-input__input"
-        autocomplete="off"
-        :value="value"
-        @input="fetchAddressMatches"
-      >
-    </div>
-    <template v-if="addressMatches.length">
-      <ul class="address-matches" ref="results">
-        <template v-for="(x, i) in addressMatches">
-          <li :key="i" class="address-matches__item">
-            <button class="g-btn text block focusable" style="text-align:left;" @click="selectAddress(x.address)">{{x.address}}</button>
-          </li>
+  <form
+    class="address-searchbar"
+    @submit.prevent="$listeners.submit"
+    @keydown.down.prevent="shiftFocus('next')"
+    @keydown.up.prevent="shiftFocus('prev')"
+  >
+    <div class="d-flex align-items-end">
+      <div class="flex-grow-1">
+        <GInput
+          ref="input"
+          autocomplete="off"
+          :label="label"
+          :value="value"
+          @input="fetchAddressMatches"
+          @focus="optionIndex = -1"
+        />
+        <template v-if="addressMatches.length">
+          <ul class="address-matches" ref="results">
+            <template v-for="(x, i) in addressMatches">
+              <li :key="i" class="address-matches__item">
+                <button
+                  class="g-btn text block focusable"
+                  style="text-align:left;"
+                  @click.prevent="selectAddress($event, x)"
+                >
+                  {{x}}
+                </button>
+              </li>
+            </template>
+          </ul>
         </template>
-      </ul>
-    </template>
+      </div>
+      <div class="ml-1">
+        <button class="g-btn bg-primary text-light" type="submit">Search</button>
+      </div>
+    </div>
   </form>
 </template>
 
@@ -35,14 +49,29 @@ export default {
   },
   data() {
     return {
+      optionIndex: -1,
       addressMatches: [],
       errorMessage: ''
     }
   },
+  computed: {
+    optionIndexes() {
+      return this.addressMatches.map((x, i) => i)
+    }
+  },
+  watch: {
+    optionIndex(index) {
+      if (index > -1) {
+        this.$refs.results.childNodes[index].querySelector('.focusable').focus()
+      } else if (index === -1) {
+        this.$refs.input.focus()
+      }
+    }
+  },
   methods: {
-    fetchAddressMatches(e) {
+    fetchAddressMatches(substr) {
       this.errorMessage = ''
-      const search = e.target.value.trim()
+      const search = substr.trim()
       this.$emit('input', search)
       debouncer.debounce(400, async () => {
         try {
@@ -57,28 +86,21 @@ export default {
         }
       })
     },
-    selectAddress(addr) {
+    selectAddress(e, addr) {
       this.$emit('input', addr)
       this.$emit('searchWith', addr)
       this.addressMatches = []
     },
+    incrementOptionIndex(val) {
+      this.optionIndex + val >= -1 && this.optionIndex + val < this.optionIndexes.length 
+        ? this.optionIndex += val
+        : null
+    },
     shiftFocus(direction) {
-      const input = this.$refs.input
-      const focusedResult = this.$refs.results.querySelector('.focusable:focus')
-      if (focusedResult) {
-        if (direction === 'next') {
-          try {
-            focusedResult.parentElement.nextSibling.firstChild.focus()
-          } catch (error) { }
-        } else if (direction === 'prev') {
-          try {
-            focusedResult.parentElement.previousSibling.firstChild.focus()
-          } catch (error) {
-            input.focus()
-          }
-        }
-      } else {
-        this.$refs.results.querySelector('.focusable').focus()
+      if (direction === 'next') {
+        this.incrementOptionIndex(1)
+      } else if (direction === 'prev') {
+        this.incrementOptionIndex(-1)
       }
     }
   },

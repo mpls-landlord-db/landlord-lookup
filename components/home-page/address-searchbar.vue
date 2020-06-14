@@ -69,13 +69,12 @@ export default {
     }
   },
   methods: {
-    fetchAddressMatches(substr) {
+    fetchAddressMatches(search) {
       this.errorMessage = ''
-      const search = substr.trim()
       this.$emit('input', search)
       debouncer.debounce(400, async () => {
         try {
-          if (search) {
+          if (search.trim()) {
             const res = await api.fetchAddressList({ q: search })
             this.addressMatches = res.data
           } else {
@@ -88,7 +87,7 @@ export default {
     },
     selectAddress(e, addr) {
       this.$emit('input', addr)
-      this.$emit('searchWith', addr)
+      this.$emit('submit')
       this.addressMatches = []
     },
     incrementOptionIndex(val) {

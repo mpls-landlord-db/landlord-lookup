@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid">
-    <div class="row align-items-end">
+    <div class="row align-items-end mb-4">
       <div class="col">
         <h1>Landlord Lookup</h1>
       </div>
@@ -10,23 +10,7 @@
     </div>
 
     <template v-if="selectedAddress">
-
-      <section class="address-details">
-        <h3 class="mt-0 mb-2">Address Details</h3>
-        <div class="row">
-          <div class="col">
-            <div>
-              <span class="font-weight-bold">Owner Name:</span> {{selectedAddress.owner_name}}
-            </div>
-            <div>
-              <span class="font-weight-bold">Owner Email:</span> {{selectedAddress.owner_email}}
-            </div>
-            <div>
-              <span class="font-weight-bold">Owner Phone:</span> {{selectedAddress.owner_phone}}
-            </div>
-          </div>
-        </div>
-      </section>
+      <AddressDetailsDisplay :address="selectedAddress" />
 
       <section class="other-addresses mt-4">
         <div class="row">
@@ -34,8 +18,7 @@
             We'll show a map here marking the locations of the results.
           </div>
           <div class="col">
-            <!-- <h2 class="mt-0">Results</h2> -->
-            <h3 class="mt-0 mb-2">Results</h3>
+            <h3 class="mt-0 mb-2">Results: {{totalAddresses}}</h3> 
             <div class="row">
               <div class="col font-weight-bold">Address:</div>
               <div class="col font-weight-bold">Match Confidence:</div>
@@ -71,6 +54,13 @@
 
     </template>
 
+    <template v-else>
+      <div style="text-align: center; margin-top: 200px">
+        Use the searchbar to find information about the rental license for your address
+        and see which other addresses are managed by your landlord. 
+      </div>
+    </template>
+
   </section>
 </template>
 
@@ -81,10 +71,14 @@ import * as api from '@/services/api'
 
 import TheAddressSearchbar from '@/components/home-page/address-searchbar'
 import PropertyInfoDisplay from '@/components/home-page/property-info-display/property-info-display'
+import DisplayRow from '@/components/home-page/property-info-display/display-row'
+import AddressDetailsDisplay from '@/components/home-page/address-details-display'
 export default {
   components: {
     TheAddressSearchbar,
-    PropertyInfoDisplay
+    PropertyInfoDisplay,
+    DisplayRow,
+    AddressDetailsDisplay,
   },
   data() {
     return {
@@ -117,12 +111,12 @@ export default {
     },
   },
   mounted() {
-    this.searchResults = Xerxes
-    this.selectedAddressId = Xerxes.primary.id
+    // this.searchResults = Xerxes
+    // this.selectedAddressId = Xerxes.primary.id
   },
   methods: {
     onSubmit() {
-      api.fetchAddressInfo({ q: this.addrSearch }).then(res => {
+      api.fetchAddressInfo({ q: encodeURIComponent(this.addrSearch) }).then(res => {
         this.searchResults = res.data
         this.selectedAddressId = res.data.primary.id
       })

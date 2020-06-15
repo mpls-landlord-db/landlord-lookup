@@ -91,17 +91,10 @@ export default {
       this.addressMatches = []
     },
     incrementOptionIndex(val) {
-      this.optionIndex + val >= -1 && this.optionIndex + val < this.optionIndexes.length 
-        ? this.optionIndex += val
-        : null
-    },
-    shiftFocus(direction) {
-      if (direction === 'next') {
-        this.incrementOptionIndex(1)
-      } else if (direction === 'prev') {
-        this.incrementOptionIndex(-1)
+      if (this.optionIndex + val >= -1 && this.optionIndex + val < this.optionIndexes.length) {
+        this.optionIndex += val
       }
-    }
+    },
   },
 }
 </script>

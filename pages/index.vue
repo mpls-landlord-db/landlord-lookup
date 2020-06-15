@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid">
-    <div class="row align-items-end mb-4">
+    <div class="row align-items-end mb-3">
       <div class="col">
         <h1>Landlord Lookup</h1>
       </div>
@@ -10,48 +10,13 @@
     </div>
 
     <template v-if="selectedAddress">
-      <AddressDetailsDisplay :address="selectedAddress" />
-
-      <section class="other-addresses mt-4">
-        <div class="row">
-          <div class="col d-flex justify-content-center align-items-center bg-dark text-light">
-            We'll show a map here marking the locations of the results.
-          </div>
-          <div class="col">
-            <h3 class="mt-0 mb-2">Results: {{totalAddresses}}</h3> 
-            <div class="row">
-              <div class="col font-weight-bold">Address:</div>
-              <div class="col font-weight-bold">Match Confidence:</div>
-            </div>
-            <ul class="address-list">
-              <li class="primary" :class="{ 'selected' : primary.id === selectedAddressId }">
-                <button class="g-btn text text-left block" @click="selectedAddressId = primary.id">
-                  <div class="row">
-                    <div class="col">
-                      {{primary.address}}
-                    </div>
-                    <div class="col font-weight-normal">
-                      Primary
-                    </div>
-                  </div>
-                </button>
-
-              </li>
-              <li v-for="({ data, matchedBy }, i) in secondary" :key="i" class="secondary" :class="{ 'selected' : data.id === selectedAddressId }">
-                <button class="g-btn text text-left block" @click="selectedAddressId = data.id">
-                  <div class="row">
-                    <div class="col">{{data.address}}</div>
-                    <div class="col">
-                      <span v-for="x in matchedBy.length" :key="x" class="green-box mr-1"></span>
-                    </div>
-                  </div>
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
+      <div class="row">
+        <AddressDetails :license="selectedAddress" class="mb-3" />
+      </div>
+      <div class="row">
+        <AddressSearchResultsMap />
+        <AddressSearchResultsList v-bind="searchResults" :selectedAddressId.sync="selectedAddressId" />
+      </div>
     </template>
 
     <template v-else>
@@ -70,15 +35,16 @@ import { Xerxes } from '@/util/mocks'
 import * as api from '@/services/api'
 
 import TheAddressSearchbar from '@/components/home-page/address-searchbar'
-import PropertyInfoDisplay from '@/components/home-page/property-info-display/property-info-display'
-import DisplayRow from '@/components/home-page/property-info-display/display-row'
-import AddressDetailsDisplay from '@/components/home-page/address-details-display'
+import AddressDetails from '@/components/home-page/address-details'
+import AddressSearchResultsMap from '@/components/home-page/address-search-results-map'
+import AddressSearchResultsList from '@/components/home-page/address-search-results-list'
+
 export default {
   components: {
     TheAddressSearchbar,
-    PropertyInfoDisplay,
-    DisplayRow,
-    AddressDetailsDisplay,
+    AddressSearchResultsMap,
+    AddressSearchResultsList,
+    AddressDetails,
   },
   data() {
     return {
@@ -98,7 +64,6 @@ export default {
         return [{ data: this.primary }, ...this.secondary]
       }
       return []
-
     },
     primary() {
       return this.searchResults.primary
@@ -111,8 +76,8 @@ export default {
     },
   },
   mounted() {
-    // this.searchResults = Xerxes
-    // this.selectedAddressId = Xerxes.primary.id
+    this.searchResults = Xerxes
+    this.selectedAddressId = Xerxes.primary.id
   },
   methods: {
     onSubmit() {

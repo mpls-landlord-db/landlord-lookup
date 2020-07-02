@@ -1,4 +1,4 @@
 import axios from 'axios'
 
-export const fetchAddressList = ({ search = '', limit = 20 } = {}) => axios.get(`/api/addresses?search=${search}&limit=${limit}`)
-export const fetchAddress = ({ address = ''} = {}) => axios.get(`/api/addresses?address=${address}`)
+export const fetchAddressList = ({ q = '', limit = 20 } = {}) => axios.get(`/api/address/search?q=${q}&limit=${limit}`)
+export const fetchAddressInfo = ({ q = ''} = {}) => axios.get(`/api/address/info?q=${q}`)

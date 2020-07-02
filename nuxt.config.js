@@ -4,6 +4,11 @@ const pkg = require('./package')
 module.exports = {
   mode: 'universal',
 
+  server: {
+    port: process.env.PORT || 3000,
+    host: process.env.HOST || '0.0.0.0'
+  },
+
   /*
   ** Headers of the page
   */
@@ -36,6 +41,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/global-components',
   ],
 
   /*

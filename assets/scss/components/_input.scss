@@ -6,10 +6,20 @@
 
   &__label {
     margin-bottom: .25rem;
+    margin-left: .25rem;
   }
 
   &__input {
     font: inherit;
-    padding: .25rem;
+    padding: .5rem;
+    border: 1px solid #888;
+    background-color: #fcfcfc;
+    border-radius: 4px;
+  }
+
+  &__input:focus {
+    border-color: #0799fa;
+    background-color: white;
+    box-shadow: 1px 1px 4px #b8b8b8;
   }
 }

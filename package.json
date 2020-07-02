@@ -5,18 +5,19 @@
   "author": "Jacob Albright",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development HOST=0.0.0.0 nodemon server/index.js --watch server",
+    "dev": "cross-env NODE_ENV=development nodemon server/server.js --watch server",
     "build": "nuxt build",
-    "start": "cross-env NODE_ENV=production node server/index.js",
+    "start": "cross-env NODE_ENV=production node server/server.js",
     "generate": "nuxt generate",
     "test": "jest"
   },
   "dependencies": {
-    "cross-env": "^5.2.0",
-    "nuxt": "^2.4.0",
-    "express": "^4.16.4",
     "axios": "0.19.2",
     "bootstrap": "4.5.0",
+    "cross-env": "^5.2.0",
+    "dotenv": "8.2.0",
+    "express": "^4.16.4",
+    "nuxt": "^2.4.0",
     "pg": "8.2.1"
   },
   "devDependencies": {

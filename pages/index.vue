@@ -14,7 +14,11 @@
         <AddressDetails :license="selectedAddress" class="mb-3" />
       </div>
       <div class="row">
-        <AddressSearchResultsMap />
+        <AddressSearchResultsMap
+          :addresses="allAddresses"
+          :selectedAddressId="selectedAddressId"
+          @selectAddress="selectedAddressId = $event"
+        />
         <AddressSearchResultsList v-bind="searchResults" :selectedAddressId.sync="selectedAddressId" />
       </div>
     </template>

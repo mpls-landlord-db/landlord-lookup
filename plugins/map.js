@@ -14,16 +14,25 @@ function createMap(elem) {
 
   mapboxTiles.addTo(map)
 
-
   const state = {
     markers: new Set()
   }
 
   return {
-    addMarker(lat, lng, { title, onClick } = {}) {
-      const mkr = leaflet.marker([lat, lng])
+    addMarker(lat, lng, { title, isSelected, onClick,  } = {}) {
+      const mkr = leaflet.marker([lat, lng], {
+        icon: leaflet.icon({
+          iconUrl: require(`~/assets/images/marker-icon-${isSelected ? 'purple' : 'blue'}.png`),
+          iconAnchor: [20, 32],
+          iconSize: [20, 32],
+        }),
+        zIndexOffset: isSelected ? 100 : 0,
+      })
       mkr.on('click', onClick)
-      mkr.bindTooltip(title)
+      mkr.bindTooltip(title, {
+        offset: [-22, -20],
+        direction: 'left'
+      })
       mkr.addTo(map)
       state.markers.add(mkr)
     },
@@ -40,6 +49,5 @@ function createMap(elem) {
 
 
 export default (ctx, inject) => {
-
   inject('createMap', createMap)
 }

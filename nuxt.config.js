@@ -9,6 +9,10 @@ module.exports = {
     host: process.env.HOST || '0.0.0.0'
   },
 
+  env: {
+    MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN
+  },
+
   /*
   ** Headers of the page
   */
@@ -21,8 +25,14 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet' }
-    ]
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet' },
+      { 
+        rel: 'stylesheet',
+        href: 'https://unpkg.com/leaflet@1.6.0/dist/leaflet.css',
+        integrity: 'sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==',
+        crossorigin: ''
+      },
+    ],
   },
 
   /*
@@ -42,6 +52,7 @@ module.exports = {
   */
   plugins: [
     '~/plugins/global-components',
+    { src: '~/plugins/map', mode: 'client' },
   ],
 
   /*

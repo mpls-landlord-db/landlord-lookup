@@ -14,7 +14,9 @@
         <AddressDetails :license="selectedAddress" class="mb-3" />
       </div>
       <div class="row">
-        <AddressSearchResultsMap />
+        <!-- <client-only> -->
+          <AddressSearchResultsMap :addresses="allAddresses" />
+        <!-- </client-only> -->
         <AddressSearchResultsList v-bind="searchResults" :selectedAddressId.sync="selectedAddressId" />
       </div>
     </template>

@@ -1,10 +1,10 @@
 <template>
   <section class="container-fluid">
     <div class="row align-items-end mb-3">
-      <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center">
+      <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center pl-0">
         <h1>Landlord Lookup</h1>
       </div>
-      <div class="col-xs-12 col-sm-6 d-flex justify-content-sm-end justify-content-center">
+      <div class="col-xs-12 col-sm-6 d-flex justify-content-sm-end justify-content-center pr-0">
         <TheAddressSearchbar label="Search by address:" @submit="onSubmit" v-model="addrSearch" />
       </div>
     </div>
@@ -14,7 +14,7 @@
         <AddressDetails :license="selectedAddress" class="mb-3" />
       </div>
       <div class="row">
-        <div class="col-12 col-sm-6 p-0">
+        <div class="col-12 col-sm-6 p-0 mb-4 pb-2">
           <AddressSearchResultsList v-bind="searchResults" :selectedAddressId.sync="selectedAddressId" />
         </div>
         <div class="col-12 col-sm-6">
@@ -26,8 +26,18 @@
             />
           </div>
         </div>
-
       </div>
+      <client-only>
+        <button
+          ref="backToTop"
+          :class="{ 'd-none' : !showBackToTop }"
+          class="back-to-top g-btn bg-light"
+          @click="goTo(0)"
+          @touchend="goTo(0)"
+        >
+          Top
+        </button>
+      </client-only>
     </template>
 
     <template v-else>
@@ -61,10 +71,14 @@ export default {
     return {
       addrSearch: '',
       searchResults: {},
-      selectedAddressId: ''
+      selectedAddressId: '',
+      scrollY: 0,
     }
   },
   computed: {
+    showBackToTop() {
+      return this.scrollY > 200
+    },
     selectedAddress() {
       return this.allAddresses.length
         ? this.allAddresses.find(x => x.data.id === this.selectedAddressId).data
@@ -89,8 +103,19 @@ export default {
   mounted() {
     this.searchResults = Xerxes
     this.selectedAddressId = Xerxes.primary.id
+    window.addEventListener('scroll', this.setScrollY)
+
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.setScrollY)
   },
   methods: {
+    goTo(y) {
+      window.scroll({ top: y, behavior: 'smooth' })
+    },
+    setScrollY() {
+      this.scrollY = window.scrollY
+    },
     onSubmit() {
       api.fetchAddressInfo({ q: encodeURIComponent(this.addrSearch) }).then(res => {
         this.searchResults = res.data
@@ -141,5 +166,15 @@ export default {
 .primary.selected {
   top: 0;
   background: #b1e3eb;
+}
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 8px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <section class="container-fluid">
     <div class="row align-items-end mb-3">
-      <div class="col">
+      <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center">
         <h1>Landlord Lookup</h1>
       </div>
-      <div class="col d-flex justify-content-end">
+      <div class="col-xs-12 col-sm-6 d-flex justify-content-sm-end justify-content-center">
         <TheAddressSearchbar label="Search by address:" @submit="onSubmit" v-model="addrSearch" />
       </div>
     </div>
@@ -14,12 +14,19 @@
         <AddressDetails :license="selectedAddress" class="mb-3" />
       </div>
       <div class="row">
-        <AddressSearchResultsMap
-          :addresses="allAddresses"
-          :selectedAddressId="selectedAddressId"
-          @selectAddress="selectedAddressId = $event"
-        />
-        <AddressSearchResultsList v-bind="searchResults" :selectedAddressId.sync="selectedAddressId" />
+        <div class="col-12 col-sm-6 p-0">
+          <AddressSearchResultsList v-bind="searchResults" :selectedAddressId.sync="selectedAddressId" />
+        </div>
+        <div class="col-12 col-sm-6">
+          <div class="row">
+            <AddressSearchResultsMap
+              :addresses="allAddresses"
+              :selectedAddressId="selectedAddressId"
+              @selectAddress="selectedAddressId = $event"
+            />
+          </div>
+        </div>
+
       </div>
     </template>
 

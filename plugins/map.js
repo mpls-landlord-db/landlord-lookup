@@ -19,7 +19,7 @@ function createMap(elem) {
   }
 
   return {
-    addMarker(lat, lng, { title, isSelected, onClick,  } = {}) {
+    addMarker(lat, lng, { title, isSelected, onClick } = {}) {
       const mkr = leaflet.marker([lat, lng], {
         icon: leaflet.icon({
           iconUrl: require(`~/assets/images/marker-icon-${isSelected ? 'purple' : 'blue'}.png`),

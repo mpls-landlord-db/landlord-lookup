@@ -1,5 +1,5 @@
 <template>
-  <div class="col d-flex justify-content-center">
+  <div class="col d-flex justify-content-center pr-sm-0 pl-sm-3 p-0">
     <div ref="map" class="my-map"></div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="col">
+  <div class="col address-search-results-list p-0">
     <h3 class="mt-0 mb-2">Results: {{totalEntities}}</h3> 
     <div class="row">
       <div class="col font-weight-bold">Address:</div>

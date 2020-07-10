@@ -51,9 +51,7 @@
 </template>
 
 <script>
-import { Xerxes } from '@/util/mocks'
-
-import * as api from '@/services/api'
+import * as api from '@/services/apiRequests'
 
 import TheAddressSearchbar from '@/components/home-page/address-searchbar'
 import AddressDetails from '@/components/home-page/address-details'
@@ -101,10 +99,7 @@ export default {
     },
   },
   mounted() {
-    this.searchResults = Xerxes
-    this.selectedAddressId = Xerxes.primary.id
     window.addEventListener('scroll', this.setScrollY)
-
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.setScrollY)

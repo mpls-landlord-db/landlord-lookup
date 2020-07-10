@@ -9,6 +9,10 @@ module.exports = {
     host: process.env.HOST || '0.0.0.0'
   },
 
+  serverMiddleware: [
+    '~/server/api',
+  ],
+
   env: {
     MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN
   },

@@ -7,7 +7,6 @@ const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
-const routes = require('./routes')
 
 
 
@@ -29,8 +28,6 @@ async function start() {
     await nuxt.ready()
   }
 
-
-  app.use('/api', routes)
   
   // Give nuxt middleware to express
   app.use(nuxt.render)

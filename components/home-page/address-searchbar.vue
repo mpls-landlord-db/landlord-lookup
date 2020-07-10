@@ -40,7 +40,7 @@
 
 <script>
 import { makeDebouncer } from '@/util'
-import * as api from '@/services/api'
+import * as api from '@/services/apiRequests'
 const debouncer = makeDebouncer()
 export default {
   props: {

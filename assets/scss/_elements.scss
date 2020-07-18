@@ -10,3 +10,19 @@ ul {
   list-style: none;
   padding: 0;
 }
+
+a,
+.nuxt-link,
+.nuxt-link-active,
+.nuxt-link-exact-active {
+  color: #444;
+  text-decoration: none;
+}
+
+.nuxt-link-active,
+.nuxt-link-exact-active {
+  color: black;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #03a59d;
+}

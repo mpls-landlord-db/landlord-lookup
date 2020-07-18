@@ -1,5 +1,5 @@
 <template>
-  <div class="layout" :class="{ 'layout--is-scrolled' : scrollY > 20 }">
+  <div class="layout" :class="{ 'layout--is-scrolled' : scrollY > 40 }">
 
     <div class="navbar-wrapper">
       <TheNavbar />
@@ -68,7 +68,7 @@ $navbar-height-scrolled: 32px;
   }
 
   .main-content-wrapper {
-    background: aquamarine;
+    background: #fafafa;
     margin-top: $navbar-height;
     width: 100%;
     min-height: calc(100% - #{$navbar-height});

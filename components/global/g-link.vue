@@ -2,10 +2,9 @@
   <nuxt-link
     tabindex="-1"
     role="link"
-    exact
+    :exact="props.exact"
     :to="props.to"
-    :class="[data.staticClass]"
-    
+    :class="[data.staticClass, data.class]"
   >
     <button class="g-link">
       <slot></slot>
@@ -16,7 +15,8 @@
 <script>
 export default {
   props: {
-    to: [String, Object]
+    to: [String, Object],
+    exact: Boolean,
   }
 }
 </script>
@@ -25,7 +25,6 @@ export default {
 .g-link {
   font: inherit;
   padding: 4px;
-  // font-size: 1.125rem;
   outline: none;
   background: transparent;
   border: 1px solid transparent;

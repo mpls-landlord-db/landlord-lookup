@@ -8,8 +8,8 @@
               <nuxt-link exact class="navlink" to="/">Landlord Lookup</nuxt-link>
             </section>
             <section class="links">
-              <g-link class="navlink" to="/">Home</g-link>
-              <g-link class="navlink" to="/about">About</g-link>
+              <g-link exact class="navlink" to="/">Home</g-link>
+              <g-link exact class="navlink" to="/about">About</g-link>
             </section>
           </nav>
         </div>

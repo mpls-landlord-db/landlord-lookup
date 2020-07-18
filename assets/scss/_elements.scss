@@ -10,3 +10,10 @@ ul {
   list-style: none;
   padding: 0;
 }
+
+.nuxt-link,
+.nuxt-link-active,
+.nuxt-link-exact-active {
+  color: #222;
+  text-decoration: none;
+}

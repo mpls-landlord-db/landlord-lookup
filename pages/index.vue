@@ -1,9 +1,9 @@
 <template>
   <section class="container-fluid">
-    <div class="row align-items-end mb-3">
-      <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center pl-0">
+    <div class="row align-items-end my-3">
+      <!-- <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center pl-0">
         <h1>Landlord Lookup</h1>
-      </div>
+      </div> -->
       <div class="col-xs-12 col-sm-6 d-flex justify-content-sm-end justify-content-center pr-0">
         <TheAddressSearchbar label="Search by address:" @submit="onSubmit" v-model="addrSearch" />
       </div>

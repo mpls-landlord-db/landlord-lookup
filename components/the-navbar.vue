@@ -8,8 +8,8 @@
               <nuxt-link exact class="navlink" to="/">Landlord Lookup</nuxt-link>
             </section>
             <section class="links">
-              <nuxt-link class="navlink" exact to="/">Home</nuxt-link>
-              <nuxt-link class="navlink" exact to="/about">About</nuxt-link>
+              <g-link exact class="navlink" to="/">Home</g-link>
+              <g-link exact class="navlink" to="/about">About</g-link>
             </section>
           </nav>
         </div>
@@ -46,7 +46,6 @@ export default {
     }
     .links {
       .navlink {
-        margin-left: .5rem;
         font-size: 1.125rem;
       }
     }

@@ -1,12 +1,30 @@
 <template>
   <section class="container-fluid">
-    <div class="row align-items-end my-3">
-      <!-- <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center pl-0">
-        <h1>Landlord Lookup</h1>
-      </div> -->
-      <div class="col-xs-12 col-sm-6 d-flex justify-content-sm-end justify-content-center pr-0">
-        <TheAddressSearchbar label="Search by address:" @submit="onSubmit" v-model="addrSearch" />
+    
+    <div class="row my-3 p-0 flex-column flex-md-row">
+      <div v-if="!selectedAddress" class="col p-0 order-2 order-md-1">
+        <section class="how-it-works ">
+          <p>
+            Enter a Minneapolis address into the search bar.
+          </p>
+          <p>
+            We'll search <a class="link" target="_blank" href="https://opendata.minneapolismn.gov/datasets/active-rental-licenses/data">this data</a> 
+            made public by the city of Minneapolis. If we find a matching address, we'll send back some basic rental license information as well as a 
+            list of addresses that share the same owner/landlord/management company.
+          </p>
+          <p>
+            Checkout our <nuxt-link class="link" to="/about">about</nuxt-link> page to learn more about how it works.
+          </p>
+        </section>
       </div>
+      <div class="col order-1 order-md-2">
+        <div class="row align-items-end">
+          <div class="col d-flex justify-content-center justify-content-md-end p-0">
+            <TheAddressSearchbar label="Search by address:" @submit="onSubmit" v-model="addrSearch" />
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <template v-if="selectedAddress">
@@ -38,13 +56,6 @@
           Top
         </button>
       </client-only>
-    </template>
-
-    <template v-else>
-      <div style="text-align: center; margin-top: 200px">
-        Use the searchbar to find information about the rental license for your address
-        and see which other addresses are managed by your landlord. 
-      </div>
     </template>
 
   </section>
@@ -172,4 +183,8 @@ export default {
   height: 60px;
   border-radius: 50%;
 }
+.how-it-works p {
+  font-size: 1.125rem;
+}
+
 </style>

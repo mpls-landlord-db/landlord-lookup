@@ -11,6 +11,10 @@ ul {
   padding: 0;
 }
 
+ul li::before {
+  content: "\200B";
+}
+
 a,
 .nuxt-link,
 .nuxt-link-active,

@@ -48,11 +48,11 @@ export default {
       return [
         {
           label: 'Issued',
-          value: new Date(Number(this.license.issue_date)).toDateString(),
+          value: new Date(this.license.issue_date).toDateString(),
         },
         {
           label: 'Expires',
-          value: new Date(Number(this.license.expiration_date)).toDateString(),
+          value: new Date(this.license.expiration_date).toDateString(),
         },
       ]
     },

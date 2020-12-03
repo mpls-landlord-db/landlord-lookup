@@ -1,6 +1,6 @@
 const pool = require('../services/database')
 
-const ACTIVE_RENTAL_LICENSES = 'mpls_active_rental_licenses'
+const ACTIVE_RENTAL_LICENSES = process.env.ACTIVE_TABLE
 
 
 // DYNAMIC QUERY TEMPLATES
